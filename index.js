@@ -5,6 +5,7 @@ const equals = document.querySelector('.equals');
 const clear = document.querySelector('.clear');
 const negative = document.querySelector('.negative');
 const percent = document.querySelector('.percent');
+const decimal = document.querySelector('.comma'); // Punto decimal
 
 let firstValue = "";
 let isFirstValue = false;
@@ -24,18 +25,22 @@ for (let i = 0; i < numbers.length; i++) {
     });
 }
 
+// Manejo del primer valor
 function getFirstValue(el) {
+    if (el === "." && firstValue.includes(".")) return; // Evitar múltiples puntos
     result.innerHTML = "";
     firstValue += el;
     result.innerHTML = firstValue;
-    firstValue = +firstValue;
+    firstValue = parseFloat(firstValue); // Convertir a número flotante
 }
 
+// Manejo del segundo valor
 function getSecondValue(el) {
+    if (el === "." && secondValue.includes(".")) return; // Evitar múltiples puntos
     if (firstValue !== "" && signValue !== "") {
         secondValue += el;
         result.innerHTML = secondValue;
-        secondValue = +secondValue;
+        secondValue = parseFloat(secondValue); // Convertir a número flotante
     }
 }
 
@@ -106,4 +111,15 @@ clear.addEventListener('click', () => {
     isSecondValue = false;
     signValue = "";
     resultValue = 0;
+});
+
+// Punto decimal
+decimal.addEventListener('click', () => {
+    if (!isFirstValue) {
+        if (!firstValue.toString().includes(".")) firstValue += ".";
+        result.innerHTML = firstValue;
+    } else {
+        if (!secondValue.toString().includes(".")) secondValue += ".";
+        result.innerHTML = secondValue;
+    }
 });
